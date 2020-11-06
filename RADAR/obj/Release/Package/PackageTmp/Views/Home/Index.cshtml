@@ -1,0 +1,191 @@
+﻿
+@{
+    /**/
+
+    ViewBag.Title = "RADAR";
+}
+<script type="text/javascript">
+    function GetSelectedTextValue(ddlBranches) {
+        alert("hi there");
+        var selected_val = $('#ddlBranches').find(":selected").attr('value');
+    }
+
+    function justchecking(somevalue) {
+        //  alert("abc");
+        //  alert(somevalue);
+        //  alert(document.getElementById("UserName").value);
+        //  alert($("#UserName").val());
+        $("#UserName").val(somevalue);
+    }
+</script>
+<style>
+    .header {
+        text-align: center;
+        background: #1abc9c;
+        color: white;
+        font-size: 30px;
+       
+        margin: 0px;
+    
+    }
+</style>
+
+<div>
+    <h1 style="font-family:Calibri;font-size:20px;  background-color: #eee;padding-top:5px;padding-bottom:5px;border:0,0,0,0;text-align:center">RADAR for States Industries - Safety Observation Card</h1>
+</div>
+@using RADAR.Models
+
+
+@using (Html.BeginForm("Create", "Home", FormMethod.Post))
+{
+
+
+    @Html.AntiForgeryToken()
+
+    @model Widget
+
+    @*  @Html.DropDownListFor(model => model.Gender,
+        new SelectList(Enum.GetValues(typeof(Gender))),
+        "Select Gender",
+        new { @class = "form-control" })
+    *@
+
+    @* @Html.DropDownList("Locations", "Location") *@
+
+
+
+    <table class="table table-bordered table-responsive ">
+        <tr>
+            <td width="75px">
+                Select Name:
+            </td>
+            <td width="=100px">
+                @Html.DropDownList("ADUsers", new SelectList(ViewBag.ADUsers, "FullName", "FullName"), new { onchange = "justchecking(this.value)" })
+            </td>
+            <td width="65px"></td>
+            <td width="35px">
+                Type:
+            </td>
+            <td width="100px">
+                @Html.DropDownListFor(model => model.Observation, new SelectList(ViewBag.Types, "ObservationType", "ObservationType"))
+            </td>
+
+        </tr>
+        <tr>
+            <td width="75px">
+                Name:
+            </td>
+            <td width="100px">
+                @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @id = "UserName" } })
+            </td>
+            <td width="65px"></td>
+            <td width="35px" >
+                Location:
+            </td>
+            <td width="100px">
+                @Html.DropDownListFor(model => model.Location, new SelectList(ViewBag.Locations, "Location", "Location"))
+            </td>
+        </tr>
+        <tr>
+            <td width=" = 75px">
+                @*  @Html.LabelFor(model => model.CreatedOn, new { @class = "control-label col-md-2" }) *@
+                Observed On:
+            </td>
+            <td width="100px">
+                @* <div style="width:100px;" > *@
+                @Html.EditorFor(model => model.CreatedOn, new { htmlAttributes = new { @class = "date-picker" } })
+                @Html.ValidationMessageFor(model => model.CreatedOn)
+                @*  </div>   *@
+            </td>
+            <td width="65px"></td>
+            <td width="35px">
+                Shift:
+            </td>
+            <td width="100px">
+                @Html.DropDownListFor(model => model.Shift, new SelectList(ViewBag.Shifts, "ShiftName", "ShiftName"))
+            </td>
+        </tr>
+    </table>
+    <br />
+
+    <table>
+        <tr>
+            Behavior Observation:
+        </tr>
+        <tr>
+            <td width="200"> @Html.DropDownListFor(model => model.Behavior, new SelectList(ViewBag.Behaviors, "Behavior", "Behavior"))</td>
+            <td width="100">
+
+                Safe
+                @Html.RadioButtonFor(model => model.Safe, "Safe", new { Checked = "checked" })
+            </td>
+            <td width="100">
+                At Risk
+                @Html.RadioButtonFor(model => model.Safe, "At Risk")
+
+            </td>
+        </tr>
+    </table>
+
+
+
+    @Html.Raw("Comments (Good Practices, At Risk Behaviors, Action Taken or Coaching Given)")
+    <br/>
+    @Html.TextAreaFor(model => model.Comments, 10, 55, htmlAttributes: new { style = "width: 100%; max-width: 60%;" })
+
+
+    <br/>
+    <table>
+        <tr>
+            <td width="200">
+                Did you Intercede?
+            </td>
+            <td width="100">
+                Yes
+                @Html.RadioButtonFor(model => model.intercede, "Yes", new { Checked = "checked" })
+            </td>
+            <td width="100">
+                No
+                @Html.RadioButtonFor(model => model.intercede, "No")
+            </td>
+        </tr>
+        <tr>
+            <td width="200">
+                MENTORS Reviewed:
+            </td>
+            <td width="100">
+                Yes
+                @Html.RadioButtonFor(model => model.mentorreviewed, "Yes", new { Checked = "checked" })
+            </td>
+            <td width="100">
+                No
+                @Html.RadioButtonFor(model => model.mentorreviewed, "No")
+            </td>
+        </tr>
+    </table>
+
+
+    @Html.TextAreaFor(model => model.MentorReview, 10, 90, htmlAttributes: new { style = "width: 100%; max-width: 60%;"})
+    
+   <table>
+       <tr>
+           <td width="150px"></td>
+          
+        <td>
+            <input type="submit" value="Create" name="action:Create" id="id1" style='width:120px; height:40px' />
+        </td>
+        <td width="150px"></td>
+           
+           <td>
+
+               <input type="submit" value="Clear" name="action:Clear" id="id2" />
+           <td>
+           <td></td>
+
+       </tr>
+    </table>
+    
+}
+
+
+
