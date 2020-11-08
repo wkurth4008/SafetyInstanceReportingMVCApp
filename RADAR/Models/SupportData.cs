@@ -1,4 +1,15 @@
-﻿using System;
+﻿//////////////////////////////////////////////////////////
+///
+/// Name: SupportData.cs
+/// Author: William Kurth
+/// Description: 
+/// Class:  
+/// Base Class: 
+/// Notes:
+/// 
+
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -6,6 +17,10 @@ using System.Web;
 
 namespace RADAR.Models
 {
+
+    /// <summary>
+    /// Location of report
+    /// </summary>
     public class LocationsData
     {
         public string Location { get; set; } 
@@ -13,6 +28,9 @@ namespace RADAR.Models
         public int DispOrder { get; set; }
     }
 
+    /// <summary>
+    /// Shift incident occurred
+    /// </summary>
     public class ShiftData
     {
         public string ShiftName { get; set; }
@@ -20,6 +38,9 @@ namespace RADAR.Models
         public int DispOrder { get; set; }
     }
 
+    /// <summary>
+    /// Type of safety discrepency found
+    /// </summary>
     public class TypeData
     {
         public string ObservationType { get; set; }
@@ -28,6 +49,9 @@ namespace RADAR.Models
     }
 
 
+    /// <summary>
+    /// Description of Behavior observed
+    /// </summary>
     public class BehaviorData
     {
         public int id { get; set; }
@@ -45,6 +69,9 @@ namespace RADAR.Models
         public string FullName { get; set; }
     }
 
+    /// <summary>
+    /// MVC display widget
+    /// </summary>
     public class Widget
     {
         public Widget()

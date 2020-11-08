@@ -1,4 +1,16 @@
-﻿using System;
+﻿//////////////////////////////////////////////////////////
+///
+/// Name: HomeController.cs
+/// Author: William Kurth
+/// Description: 
+/// Class:  HomeController
+/// Base Class: Controller
+/// Notes:
+/// 
+
+
+
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -57,7 +69,7 @@ namespace RADAR.Controllers
                 using (SqlConnection con = new SqlConnection())
                 {
                     String sql = @"RADAR_AddRecord";
-                    con.ConnectionString = @"Data Source=roadrunner;Initial Catalog=States;User ID=ssrs_insecure;Password=ssrs_insecure";
+                    con.ConnectionString = @"Data Source=roadrunner;Initial Catalog=SACME;User ID=secure;Password=secure";
 
                     if ( rdrrecord.MentorReview == null)
                     {
@@ -151,115 +163,120 @@ namespace RADAR.Controllers
 
         public ActionResult Index()
         {
-
-
-            using (SqlConnection con = new SqlConnection())
+            try
             {
 
-                String sql = @"RADAR_GetLocations";
-                con.ConnectionString = @"Data Source=roadrunner;Initial Catalog=States;User ID=ssrs_insecure;Password=ssrs_insecure";
-
-                DataTable dt = new DataTable();
-                SqlDataAdapter da = new SqlDataAdapter("RADAR_GetLocations", con);
-                da.SelectCommand.CommandType = CommandType.StoredProcedure;
-
-                da.SelectCommand = new SqlCommand(sql, con);
-                if (myLocations.Count == 0)
+                using (SqlConnection con = new SqlConnection())
                 {
-                    da.Fill(dt);
-                foreach (DataRow row in dt.Rows)
-                {
-                    LocationsData loc = new LocationsData();
-                    loc.Location = row["RDR_Location"].ToString();
-                    loc.LocationDescription = row["RDR_Notes"].ToString();
-                    loc.DispOrder = Int32.Parse(row["RDR_Location_DispOrder"].ToString());
-                    myLocations.Add(loc);
-                }
 
-                }
+                    String sql = @"RADAR_GetLocations";
+                    con.ConnectionString = @"Data Source=roadrunner;Initial Catalog=SACME;User ID=secure;Password=secure";
 
-
-                sql = @"RADAR_GetShifts";
-                dt = new DataTable();
-                if (myShifts.Count == 0)
-                {
-                    da = new SqlDataAdapter("RADAR_GetShifts", con);
+                    DataTable dt = new DataTable();
+                    SqlDataAdapter da = new SqlDataAdapter("RADAR_GetLocations", con);
                     da.SelectCommand.CommandType = CommandType.StoredProcedure;
+
                     da.SelectCommand = new SqlCommand(sql, con);
-                    da.Fill(dt);
-                    foreach (DataRow row in dt.Rows)
+                    if (myLocations.Count == 0)
                     {
-                        ShiftData shift = new ShiftData();
-                        shift.ShiftName = row["RDR_Shift"].ToString();
-                        shift.ShiftDescription = row["RDR_Notes"].ToString();
-                        shift.DispOrder = Int32.Parse(row["RDR_ShiftDispOrder"].ToString());
-                        myShifts.Add(shift);
+                        da.Fill(dt);
+                        foreach (DataRow row in dt.Rows)
+                        {
+                            LocationsData loc = new LocationsData();
+                            loc.Location = row["RDR_Location"].ToString();
+                            loc.LocationDescription = row["RDR_Notes"].ToString();
+                            loc.DispOrder = Int32.Parse(row["RDR_Location_DispOrder"].ToString());
+                            myLocations.Add(loc);
+                        }
+
                     }
-                }
 
 
-                sql = @"RADAR_GetTypes";
-                dt = new DataTable();
-                if (myTypes.Count == 0)
-                {
-                    da = new SqlDataAdapter("RADAR_GetTypes", con);
-                    da.SelectCommand.CommandType = CommandType.StoredProcedure;
-                    da.SelectCommand = new SqlCommand(sql, con);
-                    da.Fill(dt);
-                    foreach (DataRow row in dt.Rows)
+                    sql = @"RADAR_GetShifts";
+                    dt = new DataTable();
+                    if (myShifts.Count == 0)
                     {
-                        TypeData type = new TypeData();
-                        type.ObservationType = row["RDR_Type"].ToString();
-                        type.ObservationDescription = row["RDR_Notes"].ToString();
-                        type.DispOrder = Int32.Parse(row["RDR_Type_DispOrder"].ToString());
-                        myTypes.Add(type);
+                        da = new SqlDataAdapter("RADAR_GetShifts", con);
+                        da.SelectCommand.CommandType = CommandType.StoredProcedure;
+                        da.SelectCommand = new SqlCommand(sql, con);
+                        da.Fill(dt);
+                        foreach (DataRow row in dt.Rows)
+                        {
+                            ShiftData shift = new ShiftData();
+                            shift.ShiftName = row["RDR_Shift"].ToString();
+                            shift.ShiftDescription = row["RDR_Notes"].ToString();
+                            shift.DispOrder = Int32.Parse(row["RDR_ShiftDispOrder"].ToString());
+                            myShifts.Add(shift);
+                        }
                     }
-                }
 
 
-
-
-                sql = @"RADAR_GetBehaviors";
-                dt = new DataTable();
-                if (myBehaviors.Count == 0)
-                {
-                    da = new SqlDataAdapter("RADAR_GetBehaviors", con);
-                    da.SelectCommand.CommandType = CommandType.StoredProcedure;
-                    da.SelectCommand = new SqlCommand(sql, con);
-                    da.Fill(dt);
-                    foreach (DataRow row in dt.Rows)
+                    sql = @"RADAR_GetTypes";
+                    dt = new DataTable();
+                    if (myTypes.Count == 0)
                     {
-                        BehaviorData behavior = new BehaviorData();
-                        behavior.Behavior = row["RDR_BehaviorName"].ToString();
-                        behavior.BehaviorDescription = row["RDR_BehaviorNotes"].ToString();
-                        behavior.DispOrder = Int32.Parse(row["RDR_Behavior_DispOrder"].ToString());
-                        myBehaviors.Add(behavior);
+                        da = new SqlDataAdapter("RADAR_GetTypes", con);
+                        da.SelectCommand.CommandType = CommandType.StoredProcedure;
+                        da.SelectCommand = new SqlCommand(sql, con);
+                        da.Fill(dt);
+                        foreach (DataRow row in dt.Rows)
+                        {
+                            TypeData type = new TypeData();
+                            type.ObservationType = row["RDR_Type"].ToString();
+                            type.ObservationDescription = row["RDR_Notes"].ToString();
+                            type.DispOrder = Int32.Parse(row["RDR_Type_DispOrder"].ToString());
+                            myTypes.Add(type);
+                        }
                     }
-                }
 
 
-                sql = @"RADAR_GetADUsers"; // EmailAddress, Name, SamAccountName, UserPrincipalName,FullName";
-                dt = new DataTable();
-                if (myUserData.Count == 0)
-                {
-                    da = new SqlDataAdapter("RADAR_GetADUsers", con);
-                    da.SelectCommand.CommandType = CommandType.StoredProcedure;
-                    da.SelectCommand = new SqlCommand(sql, con);
-                    da.Fill(dt);
-                    foreach (DataRow row in dt.Rows)
+
+
+                    sql = @"RADAR_GetBehaviors";
+                    dt = new DataTable();
+                    if (myBehaviors.Count == 0)
                     {
-                        ADUserData aUser = new ADUserData();
-                        aUser.email = row["EmailAddress"].ToString();
-                        aUser.ename = row["Name"].ToString();
-                        aUser.SAMAccountName = row["SamAccountName"].ToString();
-                        aUser.UserPrincipalName = row["UserPrincipalName"].ToString();
-                        aUser.FullName = row["FullName"].ToString();
-                        myUserData.Add(aUser);
+                        da = new SqlDataAdapter("RADAR_GetBehaviors", con);
+                        da.SelectCommand.CommandType = CommandType.StoredProcedure;
+                        da.SelectCommand = new SqlCommand(sql, con);
+                        da.Fill(dt);
+                        foreach (DataRow row in dt.Rows)
+                        {
+                            BehaviorData behavior = new BehaviorData();
+                            behavior.Behavior = row["RDR_BehaviorName"].ToString();
+                            behavior.BehaviorDescription = row["RDR_BehaviorNotes"].ToString();
+                            behavior.DispOrder = Int32.Parse(row["RDR_Behavior_DispOrder"].ToString());
+                            myBehaviors.Add(behavior);
+                        }
                     }
-                }
 
+
+                    sql = @"RADAR_GetADUsers"; // EmailAddress, Name, SamAccountName, UserPrincipalName,FullName";
+                    dt = new DataTable();
+                    if (myUserData.Count == 0)
+                    {
+                        da = new SqlDataAdapter("RADAR_GetADUsers", con);
+                        da.SelectCommand.CommandType = CommandType.StoredProcedure;
+                        da.SelectCommand = new SqlCommand(sql, con);
+                        da.Fill(dt);
+                        foreach (DataRow row in dt.Rows)
+                        {
+                            ADUserData aUser = new ADUserData();
+                            aUser.email = row["EmailAddress"].ToString();
+                            aUser.ename = row["Name"].ToString();
+                            aUser.SAMAccountName = row["SamAccountName"].ToString();
+                            aUser.UserPrincipalName = row["UserPrincipalName"].ToString();
+                            aUser.FullName = row["FullName"].ToString();
+                            myUserData.Add(aUser);
+                        }
+                    }
+
+                }
             }
-
+            catch (Exception ex)
+            {
+                string mess = ex.Message;
+            }
 
             ViewBag.Locations = myLocations;
             ViewBag.selectLocations = new SelectList(myLocations.OrderBy(g => g.DispOrder), "Location", "LocationDescription");

@@ -1,4 +1,14 @@
-﻿using System;
+﻿//////////////////////////////////////////////////////////
+///
+/// Name: ManageController.cs
+/// Author: William Kurth
+/// Description: 
+/// Class:  ManageController
+/// Base Class: Controller
+/// Notes:
+/// 
+
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
